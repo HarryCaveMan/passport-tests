@@ -15,20 +15,21 @@
 </head>
 
 <body>
-<form action="http://localhost:8080/auth/login" method="post">
+<form>
   <div>
-    <label for="say">What greeting do you want to say?</label>
-    <input name="email" id="say" value="user@email.com">
+    <label for="email">your email</label>
+    <input name="email" id="email" value="user@email.com">
   </div>
   <div>
-    <label for="to">Who do you want to say it to?</label>
-    <input name="password" value="123456">
+    <label for="password">Password</label>
+    <input name="password" id ="password" value="123456">
   </div>
   <div>
-    <button>Send my greetings</button>
+    <button id="login_form">Login</button>
   </div>
 </form>
 </body>
+
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
     crossorigin="anonymous"></script>
@@ -37,4 +38,21 @@
 <!--Bootstrap -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly.min.js"></script>
 <!--plotly-->
+<script>
+    $('#login_form').on('click',(event)=>{
+      event.preventDefault();
+      $.post("http://localhost:8080/auth/login",{email:$('#email').val(),password:$('#password').val()},
+        (data,status) => {
+          console.log('----'+data+'----'+status);
+          $.ajax({
+            url: "http://localhost:8080/user",
+            type: "GET",
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", `Bearer ${data.token}` );
+            },
+            success: res => $(document.body).html(res)
+          })
+        });
+    });
+</script>
 </html>

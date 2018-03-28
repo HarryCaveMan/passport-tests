@@ -21,7 +21,8 @@ route.post('/login', function (req, res, next) {
             if (err) {
                 res.send(err);
             }
-            const token = jwt.sign(user, 'secret');
+            console.log("-------"+user.id+"-------")
+            const token = jwt.sign(user.id, 'secret');
 
             return res.json({message:"okay",token: token});
         });

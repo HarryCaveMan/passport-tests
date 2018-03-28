@@ -32,7 +32,8 @@ passport.use(new JWTStrategy({
     },
     function (jwtPayload, cb) {
         //find the user in db if needed
-        return db.User.findOneById(jwtPayload.id)
+        console.log(JSON.stringify(jwtPayload));
+        return db.User.findOne({where:{id:jwtPayload}})
             .then(user => {
                 return cb(null, user.get({plain:true}));
             })
