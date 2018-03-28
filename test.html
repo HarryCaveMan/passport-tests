@@ -52,7 +52,7 @@
             },
             success: res => $(document.body).html(res)
           })
-        });
+        }).fail(xhr =>console.log(xhr.status));
     });
 </script>
 </html>
